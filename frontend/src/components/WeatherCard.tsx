@@ -1,41 +1,62 @@
-import { WiHumidity, WiStrongWind } from "react-icons/wi";
 import type { WeatherData } from "../types/weather";
+import { WiHumidity, WiStrongWind, WiThermometer } from "react-icons/wi";
 
-interface Props {
-  weather: WeatherData;
-}
+type Props = {
+  data: WeatherData;
+};
 
-function WeatherCard({ weather }: Props) {
+export default function WeatherCard({ data }: Props) {
   return (
-    <div className="card">
-      <h2>
-        {weather.name}, {weather.sys.country}
-      </h2>
+    <div className="mt-6 w-full bg-white/10 backdrop-blur-2xl border border-white/20 rounded-3xl p-6 text-white shadow-2xl">
 
-      <img
-        src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`}
-        alt="weather"
-      />
-
-      <h1>{Math.round(weather.main.temp)}°C</h1>
-
-      <p>{weather.weather[0].description}</p>
-
-      <div className="details">
-        <div className="detail-box">
-          <WiHumidity size={45} />
-          <span>{weather.main.humidity}%</span>
-          <small>Humidity</small>
+      {/* Top Section */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-2xl font-bold">
+            {data.name}, {data.sys.country}
+          </h2>
+          <p className="text-sm opacity-80 capitalize">
+            {data.weather[0].description}
+          </p>
         </div>
 
-        <div className="detail-box">
-          <WiStrongWind size={45} />
-          <span>{weather.wind.speed} km/h</span>
-          <small>Wind Speed</small>
+        <img
+          className="w-20 h-20"
+          src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`}
+          alt="weather icon"
+        />
+      </div>
+
+      {/* Temperature */}
+      <div className="mt-6 text-center">
+        <h1 className="text-6xl font-extrabold tracking-tight">
+          {Math.round(data.main.temp)}°
+        </h1>
+        <p className="text-sm opacity-80">Feels like {data.main.feels_like}°C</p>
+      </div>
+
+      {/* Stats */}
+      <div className="mt-6 grid grid-cols-3 gap-3 text-center">
+
+        <div className="bg-white/10 rounded-2xl p-3">
+          <WiHumidity className="mx-auto text-3xl" />
+          <p className="text-sm mt-1">{data.main.humidity}%</p>
+          <p className="text-xs opacity-70">Humidity</p>
         </div>
+
+        <div className="bg-white/10 rounded-2xl p-3">
+          <WiStrongWind className="mx-auto text-3xl" />
+          <p className="text-sm mt-1">{data.wind.speed}</p>
+          <p className="text-xs opacity-70">Wind</p>
+        </div>
+
+        <div className="bg-white/10 rounded-2xl p-3">
+          <WiThermometer className="mx-auto text-3xl" />
+          <p className="text-sm mt-1">{data.main.pressure}</p>
+          <p className="text-xs opacity-70">Pressure</p>
+        </div>
+
       </div>
     </div>
   );
 }
-
-export default WeatherCard;
