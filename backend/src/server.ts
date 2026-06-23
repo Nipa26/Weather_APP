@@ -20,6 +20,10 @@ type WeatherResponse = {
   weather: { description: string }[];
 };
 
+app.get("/", (req, res) => {
+  res.send("🌦️ Weather API is running successfully!");
+});
+
 app.get("/weather/:city", async (req, res) => {
   try {
     const city = req.params.city;
